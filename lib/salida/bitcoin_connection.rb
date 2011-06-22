@@ -1,19 +1,16 @@
 module Salida
   module BitcoinConnection
     def post_init
-      p get_peername
-      @port, @addr = Socket.unpack_sockaddr_in(get_peername)
-      send_message Messages::Version.new(:addr_you => Messages::NetworkAddress.new(:addr => @addr, :port => @port))
+      send_message Messages::Version.new(:addr_you => Messages::NetworkAddress.new(:addr => "127.0.0.1", :port => 8333))
     end
     
     def send_message message
-      p message
       send_data message.pack
     end
     
     def receive_data data
-      Message.
-      p data.unpack("La12")[1].strip
+      command = data.unpack("La12")[1].strip
+      p Messages.const_get(command.capitalize).new_from_binary(data)
     end
   end
 end

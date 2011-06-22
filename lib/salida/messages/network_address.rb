@@ -2,13 +2,19 @@ module Salida
   module Messages
     class NetworkAddress < Message
       field :services,  pack: "Q", default: 1
+      
       field :addr,      pack: proc { |value|
           [0, 0, 4294901760, IPAddr.new(value, Socket::AF_INET).to_i].pack("LLLL")
         }, unpack: proc { |value|
-          IPAddr.new(value.unpack("LLLL")[3], Socket::AF_INET)
-        }
-      field :port,      pack: "S", default: 8333
-
+          IPAddr.new(value.unpack("NNNN")[3], Socket::AF_INET)
+        }, length: 16
+      
+      field :port,      pack: "n", default: 8333
+      
+      def self.length
+        26
+      end
+      
       def self.local_address
         self.new(:addr => self.local_ip)
       end

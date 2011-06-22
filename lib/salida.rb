@@ -9,6 +9,8 @@ require 'salida/bitcoin_connection'
 require 'salida/message'
 require 'salida/messages/network_address'
 require 'salida/messages/version'
+require 'salida/messages/inv'
+require 'salida/messages/addr'
 
 module Salida
   VERSION = 0.1
