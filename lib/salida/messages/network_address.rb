@@ -4,7 +4,7 @@ module Salida
       field :services,  pack: "Q", default: 1
       
       field :addr,      pack: proc { |value|
-          [0, 0, 4294901760, IPAddr.new(value, Socket::AF_INET).to_i].pack("LLLL")
+          [0, 0, 4294901760, IPAddr.new(value, Socket::AF_INET).to_i].pack("NNNN")
         }, unpack: proc { |value|
           IPAddr.new(value.unpack("NNNN")[3], Socket::AF_INET)
         }, length: 16
